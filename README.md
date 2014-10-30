@@ -1,5 +1,5 @@
-## MCS Chassis Manager
-Microsoft cloud server Chassis Manager is a management software for rack level devices like server, fan and PSU. 
+## OCS Chassis Manager
+Open cloud server Chassis Manager is a management software for rack level devices like server, fan and PSU. 
 It primarily consists of two modules -- Chassis Manager Service and WcsCli. Chassis Manager Service provides implementation to manage various sub-services like fan service, PSU service, power control service, etc. The WcsCli provides a framework to carry out system management operations. This framework is exposed in two forms -- RESTful APIs for automated management; and a command-line interface for manual management.
 
 The intent of this community project is to collaborate with Open Compute Project Foundation (OCP) to build a thriving ecosystem of OSS within OCP and contribute this project to OCP.
@@ -19,7 +19,23 @@ All new work should be in the development branch. Master is now reserved to tag 
 - Microsoft Visual Studio build environment. README contains further instructions on how to build the project and generate required executables. 
 
 
-## Components Included
+## Components Included (version 2.0)
+
+(i) ChassisManager -- This folder contains all source/related files for the Chassis Manager Service. The Chassis Manager service includes 6 main services related to managing fan, PSU, power control, blade management, Top-of-rack (TOR), security and chassis manager control. 
+
+(ii) Contracts -- This folder contains all related files for Windows Chassis Manager service contract.
+
+(iii) IPMI -- This folder contains all source/related files for the implementation of native Windows intelligent platform management interface (IPMI) driver. This is required to provide the capability of in-band management of servers through the operating system. 
+
+(iv) WcsCli -- This folder contains all source/related files for the framework that the Chassis Manager (CM) leverages to manage the rack level devices. Through this module, a CM provides the front end through the application interface (RESTful web API) for automated management and the command-line interface for manual management. It implements various commands required to manage all devices within the rack and to establish communication directly with the blade management system through a serial multiplexor.
+
+(v) CM_TestAutomation -- This folder contains all source/related files for testing, chassis manager funcation validation test which can be used to validate Chassis Manager using the IPMI protocol.
+
+(vi) ReportGenerator -- This folder contains all source/related files for summary report generation for CM_TestAutomation, which can be used to generate summary of test report.
+
+(vii) ChassisValidation -- This folder contains all source/related files for testing, chassis manager functional validation test which can be used to validate Chassis Manager using the XML over HTTP RESTful api.
+
+## Components Included (version 1.0)
 
 (i) ChassisManager -- This folder contains all source/related files for the Chassis Manager Service. The Chassis Manager service includes 6 main services related to managing fan, PSU, power control, blade management, Top-of-rack (TOR), security and chassis manager control. 
 
@@ -30,6 +46,7 @@ All new work should be in the development branch. Master is now reserved to tag 
 (iv) WcsCli -- This folder contains all source/related files for the framework that the Chassis Manager (CM) leverages to manage the rack level devices. Through this module, a CM provides the front end through the application interface (RESTful web API) for automated management and the command-line interface for manual management. It implements various commands required to manage all devices within the rack and to establish communication directly with the blade management system through a serial multiplexor.
 
 (v) Test -- This folder contains all source/related files for testing, WcsTestUtil, which can be used to validate Chassis Manager using the IPMI protocol.
+
 
 ## Prerequisites
 
@@ -63,20 +80,15 @@ Stop service: net stop chassismanager
 
 ## Test Instructions
 
-WcsTestUtil can be used to validate the chassis through Ipmi protocol directly.
+cmStress can be used to validate the chassis through Ipmi protocol directly.
 
-To run the test, first build the WcsTestUtil solution following the BUILD steps as above.
+To run the test, first build the ChassisManagerTestAutomationUserInterface solution following the BUILD steps as above.
 
 Open a command prompt window and run the test application under the 'bin' folder.
 
 Here are some examples:
 
-WcsTestUtil.exe /Conn:IB /Cmd:A /Pass:1
-
-WcsTestUtil.exe /Conn:OOB /Com:1 /Cmd:A /Pass:1
-
-WcsTestUtil.exe /Conn:OOB /Com:1 /Type:JBOD /Cmd:A /Pass:1
-
 To get more detailed help on the test tool, please run:
 
-WcsTestUtil.exe /Help
+cmStress.exe /Help
+
